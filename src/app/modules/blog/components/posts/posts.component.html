@@ -1,0 +1,28 @@
+<div class="filter-wrap">
+  <input (keyup)="onKey($event)" >
+</div>
+<ng-container *ngFor="let post of posts | filter: searchText | paginate : {
+  itemsPerPage: pageSize,
+  currentPage: page,
+  totalItems: count
+};">
+  <div class="card">
+    <div class="card-body">
+      <h2 class="card-title">{{ post.title }}</h2>
+      <p class="card-text">{{ post.text }}</p>
+      <p class="card-text">Author: {{ post.author }}</p>
+      <mat-chip-list class="example-chip" cdkDropList cdkDropListOrientation="horizontal">
+        <mat-chip class="example-box" cdkDrag *ngFor="let tag of post.tags">
+          {{ tag }}
+        </mat-chip>
+      </mat-chip-list>
+      <a [routerLink]="['/blog', 'posts', post.id]" class="btn btn-primary see-more">See more</a>
+    </div>
+  </div>
+</ng-container>
+<pagination-controls
+      previousLabel="Prev"
+      nextLabel="Next"
+      responsive="false"
+      (pageChange)="handlePageChange($event)"
+    ></pagination-controls>
